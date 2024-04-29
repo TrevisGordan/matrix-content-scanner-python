@@ -140,6 +140,7 @@ class ScanConfig:
     temp_directory: str
     removal_command: str = "rm"
     allowed_mimetypes: Optional[List[str]] = None
+    mimetype_blacklist: Optional[List[str]] = None
 
 
 @attr.s(auto_attribs=True, frozen=True, slots=True)

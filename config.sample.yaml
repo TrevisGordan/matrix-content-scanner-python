@@ -39,6 +39,12 @@ scan:
     # Optional, defaults to allowing all MIME types.
     allowed_mimetypes: ["image/jpeg"]
 
+    # List of MIME types that should be blacklisted. If a file has a MIME type that's in
+    # this list, its scan is considered failed.
+    # Optional, defaults to allowing all MIME types.
+    mimetype_blacklist: ["application/x-msdownload"]
+
+
 # Configuration of scan result caching.
 #
 # Results are stored in a cache to avoid having to download and scan a file twice. There

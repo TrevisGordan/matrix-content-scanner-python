@@ -86,6 +86,7 @@ class Scanner:
         # MIME types (besides comparing it with the Content-Type header from the server
         # for unencrypted files).
         self._allowed_mimetypes = mcs.config.scan.allowed_mimetypes
+        self._mimetype_blacklist = mcs.config.scan.mimetype_blacklist
 
         # Cache of futures for files that are currently scanning and downloading, so that
         # concurrent requests don't cause a file to be downloaded and scanned twice.
@@ -543,5 +544,16 @@ class Scanner:
             logger.error(
                 "MIME type for file is forbidden: %s",
                 detected_mimetype,
+            )
+            raise FileDirtyError("File type not supported")
+
+        # If there's a MIME type blacklist, check that the MIME type that's been detected
+        # for this file is not in it.
+        if (
+            self._mimetype_blacklist is not None
+            and detected_mimetype in self._mimetype_blacklist
+        ):
+            logger.error(
+                f"MIME type for file is blacklisted: {detected_mimetype}"
             )
             raise FileDirtyError("File type not supported")
